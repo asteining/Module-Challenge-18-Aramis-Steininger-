@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
-  // set modal display state
-  const [showModal, setShowModal] = useState(false);
+  // set modal display state with proper typing
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleModalClose = () => setShowModal(false);
 
   return (
     <>
@@ -23,7 +24,6 @@ const AppNavbar = () => {
               <Nav.Link as={Link} to='/'>
                 Search For Books
               </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved'>
@@ -38,13 +38,12 @@ const AppNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* set modal data up */}
+
       <Modal
         size='lg'
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={handleModalClose}
         aria-labelledby='signup-modal'>
-        {/* tab container to do either signup or login component */}
         <Tab.Container defaultActiveKey='login'>
           <Modal.Header closeButton>
             <Modal.Title id='signup-modal'>
@@ -61,10 +60,10 @@ const AppNavbar = () => {
           <Modal.Body>
             <Tab.Content>
               <Tab.Pane eventKey='login'>
-                <LoginForm handleModalClose={() => setShowModal(false)} />
+                <LoginForm handleModalClose={handleModalClose} />
               </Tab.Pane>
               <Tab.Pane eventKey='signup'>
-                <SignUpForm handleModalClose={() => setShowModal(false)} />
+                <SignUpForm handleModalClose={handleModalClose} />
               </Tab.Pane>
             </Tab.Content>
           </Modal.Body>
